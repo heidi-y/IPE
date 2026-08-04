@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interprofessional Education Activities</title>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{ --green:#154734; --green-dark:#0D3025; --gold:#FFB81C; --cream:#F7F4EC; --card:#FFFFFF; --ink:#211F1B; --ink-soft:#4A483F; --rule:#DAD5C6; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; padding:32px 16px 60px; line-height:1.55; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--green); font-weight:700; margin:0 0 8px; }
+  h1{ font-family:'Fraunces',serif; font-weight:600; font-size:30px; color:var(--green-dark); margin:0 0 8px; }
+  .deck{ color:var(--ink-soft); font-size:14.5px; max-width:62ch; margin:0 0 32px; }
+
+  .grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+  .card{ display:block; background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px 22px; text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
+  .card:hover{ border-color:var(--green); transform:translateY(-1px); }
+  .card .tag{ font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--green-dark); background:#E6EAE3; border-radius:6px; padding:3px 9px; display:inline-block; margin-bottom:10px; }
+  .card h2{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; color:var(--green-dark); margin:0 0 6px; }
+  .card p{ margin:0; font-size:13.5px; color:var(--ink-soft); }
+
+  .featured{ background:var(--green-dark); border-color:var(--green-dark); }
+  .featured .tag{ background:var(--gold); color:var(--green-dark); }
+  .featured h2{ color:#fff; }
+  .featured p{ color:#C9D6CD; }
+
+  footer{ margin-top:36px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#8a9186; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Interprofessional Education</p>
+  <h1>IPE Activities</h1>
+  <p class="deck">Short, interactive activities built around the IPEC core competencies — knowing your team's roles, asking a focused question, evaluating a source, and searching as a team.</p>
+
+  <div class="grid">
+    <a class="card featured" href="interprofessional-huddle-case.html">
+      <span class="tag">Escape-Room Case</span>
+      <h2>Huddle Locked: Room 214</h2>
+      <p>Clear four holds — Roles, Question, Source, and Search — to unlock a stroke patient's discharge order.</p>
+    </a>
+
+    <a class="card" href="know-your-team.html">
+      <span class="tag">Quick Activity</span>
+      <h2>Know Your Team</h2>
+      <p>Six situations, one question each: who on the care team should be looped in first?</p>
+    </a>
+
+    <a class="card" href="source-triage.html">
+      <span class="tag">Quick Activity</span>
+      <h2>Source Triage</h2>
+      <p>Six excerpts from six disciplines — cite it or skip it, then see why.</p>
+    </a>
+
+    <a class="card" href="build-the-search.html">
+      <span class="tag">Quick Activity</span>
+      <h2>Build the Search</h2>
+      <p>Same three concepts, three different jobs for AND, OR, and NOT.</p>
+    </a>
+  </div>
+
+  <footer>INTERPROFESSIONAL EDUCATION &middot; BAYLOR UNIVERSITY LIBRARIES</footer>
+</div>
+</body>
+</html>
