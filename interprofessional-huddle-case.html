@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huddle Locked: Room 214</title>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --green:#154734; --green-dark:#0D3025; --gold:#FFB81C; --cream:#F7F4EC;
+    --card:#FFFFFF; --ink:#211F1B; --ink-soft:#4A483F; --rule:#DAD5C6; --bad:#A3382A;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--green-dark); color:var(--ink);
+    font-family:'Inter',-apple-system,sans-serif; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; padding:32px 16px 80px;
+  }
+
+  .board-header{
+    width:100%; max-width:780px; background:var(--green); color:var(--cream);
+    border-radius:14px 14px 0 0; padding:20px 26px; display:flex; justify-content:space-between;
+    align-items:flex-start; flex-wrap:wrap; gap:14px;
+  }
+  .board-header .title{ font-family:'Fraunces',serif; font-weight:600; font-size:20px; letter-spacing:.2px; }
+  .board-header .sub{ font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9D6CD; text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+  .roster{ display:flex; gap:8px; flex-wrap:wrap; }
+  .badge{
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.03em;
+    border:1.5px solid rgba(255,255,255,0.35); border-radius:100px; padding:5px 11px 5px 9px;
+    color:#C9D6CD; display:flex; align-items:center; gap:5px;
+  }
+  .badge .dot{ width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.35); flex:none; }
+  .badge.cleared{ border-color:var(--gold); color:var(--green-dark); background:var(--gold); }
+  .badge.cleared .dot{ background:var(--green-dark); }
+
+  .status-line{
+    width:100%; max-width:780px; background:var(--green-dark); padding:8px 26px 10px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#8FA396; letter-spacing:.03em;
+    border-bottom:1px solid #223a2f;
+  }
+  .status-line strong{ color:var(--gold); }
+
+  .board-body{ width:100%; max-width:780px; background:var(--cream); border-radius:0 0 14px 14px; box-shadow:0 24px 60px rgba(0,0,0,0.35); }
+
+  .tabs{ display:flex; flex-wrap:wrap; border-bottom:2px solid var(--green); }
+  .tab{
+    flex:1 1 auto; min-width:96px; text-align:center; padding:11px 6px; font-family:'JetBrains Mono',monospace;
+    font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft);
+    background:#EAE6D9; border-right:1px solid var(--rule); position:relative; cursor:pointer;
+  }
+  .tab:last-child{ border-right:none; }
+  .tab.active{ background:var(--cream); color:var(--green-dark); font-weight:700; }
+  .tab.solved::after{ content:"✓"; color:var(--green); margin-left:5px; }
+
+  .panel{ padding:30px 28px 28px; display:none; }
+  .panel.active{ display:block; }
+
+  .case-note{
+    font-family:'Fraunces',serif; font-style:italic; font-size:16px; line-height:1.55; color:var(--ink);
+    background:#fff; border-left:4px solid var(--green); border-radius:0 10px 10px 0; padding:16px 20px; margin-bottom:20px;
+  }
+
+  h1.intro-title{ font-family:'Fraunces',serif; font-weight:600; font-size:23px; color:var(--green-dark); margin:0 0 4px; }
+  .stamp{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--bad);
+    border:2px solid var(--bad); border-radius:4px; padding:3px 9px; transform:rotate(-2deg);
+    text-transform:uppercase; letter-spacing:.05em; margin-bottom:16px;
+  }
+  .competency-tag{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--green-dark); background:#E6EAE3; border-radius:6px; padding:3px 9px; margin-bottom:10px;
+  }
+  h2.puzzle-title{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; color:var(--green-dark); margin:0 0 4px; }
+  .puzzle-sub{ color:var(--ink-soft); font-size:14.5px; line-height:1.55; margin:0 0 18px; }
+
+  .options{ display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+  .option{
+    text-align:left; background:#fff; border:1px solid var(--rule); border-radius:8px; padding:13px 16px;
+    font-family:'Inter',sans-serif; font-size:14.5px; color:var(--ink); cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .option:hover{ border-color:var(--green); background:#F4F6F2; }
+  .option.correct{ border-color:var(--green); background:#E6EAE3; }
+  .option.incorrect{ border-color:var(--bad); background:#F8E9E6; }
+  .option:disabled{ cursor:default; }
+
+  .feedback{ font-family:'JetBrains Mono',monospace; font-size:12.5px; min-height:18px; margin:6px 0 4px; line-height:1.5; }
+  .feedback.good{ color:var(--green); }
+  .feedback.bad{ color:var(--bad); }
+
+  .code-reveal{
+    margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--green-dark);
+    color:#fff; display:inline-block; padding:8px 14px; border-radius:6px; letter-spacing:2px;
+  }
+
+  .search-builder{
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:#fff; border:1px solid var(--rule);
+    border-radius:8px; padding:14px; font-family:'JetBrains Mono',monospace; font-size:13.5px; margin-bottom:14px;
+  }
+  .search-builder select{ font-family:'JetBrains Mono',monospace; font-size:13.5px; padding:5px 7px; border-radius:5px; border:1px solid var(--rule); }
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:12.5px; letter-spacing:.04em;
+    background:var(--green-dark); color:#fff; border:none; border-radius:8px; padding:11px 20px; cursor:pointer;
+  }
+  .btn:hover{ background:#1c4632; }
+  .btn:disabled{ background:#B7BEB6; cursor:not-allowed; }
+
+  .final-lock{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+  .final-lock input{
+    font-family:'JetBrains Mono',monospace; font-size:18px; letter-spacing:5px; text-transform:uppercase;
+    padding:11px 14px; border:2px solid var(--green-dark); border-radius:8px; width:200px;
+  }
+
+  .escaped-screen{ text-align:center; padding:20px 10px 10px; }
+  .escaped-screen h2{ font-family:'Fraunces',serif; color:var(--green); font-size:21px; margin-bottom:8px; }
+  .escaped-screen p{ color:var(--ink-soft); line-height:1.65; max-width:52ch; margin:0 auto; }
+
+  .debrief{ margin-top:20px; text-align:left; background:#fff; border:1px solid var(--rule); border-radius:10px; padding:16px 18px; }
+  .debrief h3{ font-family:'Fraunces',serif; font-size:14.5px; color:var(--green-dark); margin:0 0 8px; }
+  .debrief ul{ margin:0; padding-left:18px; font-size:13.5px; color:var(--ink-soft); line-height:1.6; }
+
+  footer{ color:#7f9188; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:22px; text-align:center; }
+
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+
+<div class="board-header">
+  <div>
+    <div class="title">Huddle Locked — Room 214</div>
+    <div class="sub">Interprofessional Care Team &middot; Discharge Planning</div>
+  </div>
+  <div class="roster" id="roster">
+    <span class="badge" data-role="slp"><span class="dot"></span>SLP</span>
+    <span class="badge" data-role="pt"><span class="dot"></span>PT</span>
+    <span class="badge" data-role="sw"><span class="dot"></span>SW</span>
+    <span class="badge" data-role="team"><span class="dot"></span>TEAM</span>
+  </div>
+</div>
+<div class="status-line" id="statusLine">Status: <strong>0 of 4 holds cleared</strong> — discharge order locked</div>
+
+<div class="board-body">
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-tab="intro">Intake</div>
+    <div class="tab" data-tab="p1">Roles</div>
+    <div class="tab" data-tab="p2">Question</div>
+    <div class="tab" data-tab="p3">Source</div>
+    <div class="tab" data-tab="p4">Search</div>
+    <div class="tab" data-tab="final">Release</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="panel active" id="panel-intro">
+    <div class="stamp">Discharge Planning</div>
+    <h1 class="intro-title">Mrs. Alvarez, Room 214</h1>
+    <div class="case-note">
+      Mrs. Alvarez, 76, is four days post-stroke and medically ready to go home — except the discharge order is locked until the care team clears four holds. Each hold belongs to a different piece of interprofessional, evidence-based practice: knowing who to loop in, asking a focused question, trusting the right source, and searching as a team. Clear Roles, Question, Source, and Search — each one releases a code fragment — then enter the full code at Release to sign off on her discharge.
+    </div>
+    <button class="btn" onclick="goTo('p1')">Start the Huddle →</button>
+  </div>
+
+  <!-- PUZZLE 1: Roles & Responsibilities -->
+  <div class="panel" id="panel-p1">
+    <span class="competency-tag">IPEC Competency: Roles &amp; Responsibilities</span>
+    <h2 class="puzzle-title">Hold 1 — Who Do We Call?</h2>
+    <p class="puzzle-sub">Mrs. Alvarez has started coughing every time she drinks water, and she's been quietly avoiding solid food at meals. Who does the team need to loop in <em>first</em>?</p>
+    <div class="options" id="p1-options">
+      <button class="option" data-correct="false">Physical Therapist — assess her walking before anything else</button>
+      <button class="option" data-correct="true">Speech-Language Pathologist — screen for a swallowing (dysphagia) problem</button>
+      <button class="option" data-correct="false">Registered Dietitian — switch her straight to a soft-food diet</button>
+      <button class="option" data-correct="false">Social Worker — start discharge paperwork now</button>
+    </div>
+    <div class="feedback" id="p1-feedback"></div>
+    <div id="p1-reveal"></div>
+  </div>
+
+  <!-- PUZZLE 2: Foreground question (PT) -->
+  <div class="panel" id="panel-p2">
+    <span class="competency-tag">Physical Therapy &middot; Evidence-Based Practice</span>
+    <h2 class="puzzle-title">Hold 2 — Ask It Right</h2>
+    <p class="puzzle-sub">The PT on the team wants to look into Mrs. Alvarez's gait training before writing her home exercise plan. Only one of these is a real <em>foreground</em> question — specific enough to actually search. Select it.</p>
+    <div class="options" id="p2-options">
+      <button class="option" data-correct="false">How does physical therapy help stroke patients?</button>
+      <button class="option" data-correct="false">What is gait training?</button>
+      <button class="option" data-correct="true">In adults over 70 recovering from stroke, does task-specific gait training improve independent ambulation more than traditional gait training?</button>
+      <button class="option" data-correct="false">Is walking good for older adults?</button>
+    </div>
+    <div class="feedback" id="p2-feedback"></div>
+    <div id="p2-reveal"></div>
+  </div>
+
+  <!-- PUZZLE 3: Source evaluation (SW) -->
+  <div class="panel" id="panel-p3">
+    <span class="competency-tag">Social Work &middot; Information Literacy</span>
+    <h2 class="puzzle-title">Hold 3 — Trust the Source</h2>
+    <p class="puzzle-sub">The social worker is researching discharge-planning best practices for stroke patients who'll be living alone. Only one of these is something the team should actually cite. Select it.</p>
+    <div class="options" id="p3-options">
+      <button class="option" data-correct="false">"5 Tips for Caregivers" — blog post, no author byline, no date</button>
+      <button class="option" data-correct="true">Practice guideline from a national social work / rehabilitation association, named authors, cited methods, peer-reviewed</button>
+      <button class="option" data-correct="false">Anonymous forum thread: "what worked for my grandma"</button>
+      <button class="option" data-correct="false">Sponsored article on a home-safety-products retailer's site</button>
+    </div>
+    <div class="feedback" id="p3-feedback"></div>
+    <div id="p3-reveal"></div>
+  </div>
+
+  <!-- PUZZLE 4: Boolean search builder (shared team question) -->
+  <div class="panel" id="panel-p4">
+    <span class="competency-tag">Whole Team &middot; Shared Search Strategy</span>
+    <h2 class="puzzle-title">Hold 4 — Build the Search</h2>
+    <p class="puzzle-sub">Before the huddle, the team wants one shared search on fall prevention after stroke, so everyone can pull an article relevant to their own piece of the plan. Build the strongest search string.</p>
+    <div class="search-builder">
+      <span>"stroke"</span>
+      <select id="op1">
+        <option value="">-- choose --</option>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="NOT">NOT</option>
+      </select>
+      <span>"falls"</span>
+      <select id="op2">
+        <option value="">-- choose --</option>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="NOT">NOT</option>
+      </select>
+      <span>"home safety"</span>
+    </div>
+    <button class="btn" id="checkSearch">Run Search</button>
+    <div class="feedback" id="p4-feedback"></div>
+    <div id="p4-reveal"></div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="panel" id="panel-final">
+    <h2 class="puzzle-title">Release — Sign Off on Discharge</h2>
+    <p class="puzzle-sub">Combine the four codes revealed at Roles, Question, Source, and Search, in that order, no spaces.</p>
+    <div class="final-lock">
+      <input type="text" id="finalCode" maxlength="10" placeholder="----------">
+      <button class="btn" id="submitFinal">Unlock Discharge</button>
+    </div>
+    <div class="feedback" id="final-feedback"></div>
+
+    <div class="escaped-screen" id="escapedScreen" style="display:none;">
+      <h2>DISCHARGE CLEARED</h2>
+      <p>Every hold is cleared — because the team asked a focused question, checked their source, and knew exactly who on the team to loop in and when. That's interprofessional evidence-based practice.</p>
+      <div class="debrief">
+        <h3>Debrief prompts (for class discussion)</h3>
+        <ul>
+          <li>Which hold would your own discipline have gotten wrong first, and why?</li>
+          <li>Roles &amp; Responsibilities: name one other situation where the "obvious" discipline to call isn't actually the right first call.</li>
+          <li>How would this case change if Mrs. Alvarez lived alone versus with family?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>INTERPROFESSIONAL EDUCATION &middot; BAYLOR UNIVERSITY LIBRARIES &middot; CASE: ROOM 214</footer>
+
+<script>
+  // ---- codes for each hold (edit these to change the unlock code) ----
+  const CODES = { p1: "SLP4", p2: "GT9", p3: "SW2", p4: "FP7" };
+  const ROLE_FOR = { p1: "slp", p2: "pt", p3: "sw", p4: "team" };
+  const solved = { p1:false, p2:false, p3:false, p4:false };
+
+  function goTo(tabId){
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tabId));
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => goTo(tab.dataset.tab));
+  });
+
+  function markSolvedTab(id){
+    document.querySelector('.tab[data-tab="' + id + '"]').classList.add('solved');
+    var role = ROLE_FOR[id];
+    var badge = document.querySelector('.badge[data-role="' + role + '"]');
+    if(badge) badge.classList.add('cleared');
+    updateStatus();
+  }
+
+  function updateStatus(){
+    const n = Object.values(solved).filter(Boolean).length;
+    document.getElementById('statusLine').innerHTML =
+      'Status: <strong>' + n + ' of 4 holds cleared</strong>' + (n === 4 ? ' — ready for Release' : ' — discharge order locked');
+  }
+
+  function wireOptions(panelId, onSolved){
+    document.querySelectorAll('#' + panelId + '-options .option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fb = document.getElementById(panelId + '-feedback');
+        if(btn.dataset.correct === "true"){
+          btn.classList.add('correct');
+          onSolved(fb);
+          document.querySelectorAll('#' + panelId + '-options .option').forEach(b => b.disabled = true);
+        } else {
+          btn.classList.add('incorrect');
+          fb.textContent = "Not quite — think about scope of practice here. Try again.";
+          fb.className = "feedback bad";
+        }
+      });
+    });
+  }
+
+  wireOptions('p1', (fb) => {
+    fb.textContent = "Correct — new swallowing difficulty is screened by speech-language pathology before nutrition or diet changes happen. Knowing who to loop in, and when, is the Roles & Responsibilities competency in action.";
+    fb.className = "feedback good";
+    document.getElementById('p1-reveal').innerHTML = '<div class="code-reveal">Code fragment 1: ' + CODES.p1 + '</div>';
+    solved.p1 = true; markSolvedTab('p1');
+  });
+
+  wireOptions('p2', (fb) => {
+    fb.textContent = "Correct — focused, measurable, and searchable. That's a foreground question the databases can actually answer.";
+    fb.className = "feedback good";
+    document.getElementById('p2-reveal').innerHTML = '<div class="code-reveal">Code fragment 2: ' + CODES.p2 + '</div>';
+    solved.p2 = true; markSolvedTab('p2');
+  });
+
+  wireOptions('p3', (fb) => {
+    fb.textContent = "Correct — named authors, documented methods, and peer review are what make evidence trustworthy enough to build a discharge plan on.";
+    fb.className = "feedback good";
+    document.getElementById('p3-reveal').innerHTML = '<div class="code-reveal">Code fragment 3: ' + CODES.p3 + '</div>';
+    solved.p3 = true; markSolvedTab('p3');
+  });
+
+  document.getElementById('checkSearch').addEventListener('click', () => {
+    const op1 = document.getElementById('op1').value;
+    const op2 = document.getElementById('op2').value;
+    const fb = document.getElementById('p4-feedback');
+    if(op1 === "AND" && op2 === "AND"){
+      fb.textContent = "Correct — AND narrows results to sources covering all three concepts together, which is exactly what a shared team search needs.";
+      fb.className = "feedback good";
+      document.getElementById('p4-reveal').innerHTML = '<div class="code-reveal">Code fragment 4: ' + CODES.p4 + '</div>';
+      solved.p4 = true; markSolvedTab('p4');
+      document.getElementById('checkSearch').disabled = true;
+      document.getElementById('op1').disabled = true;
+      document.getElementById('op2').disabled = true;
+    } else if(!op1 || !op2){
+      fb.textContent = "Choose an operator for both blanks first.";
+      fb.className = "feedback bad";
+    } else {
+      fb.textContent = "That combination pulls in too many unrelated results, or too few — try again.";
+      fb.className = "feedback bad";
+    }
+  });
+
+  document.getElementById('submitFinal').addEventListener('click', () => {
+    const entered = document.getElementById('finalCode').value.trim().toUpperCase();
+    const answer = CODES.p1 + CODES.p2 + CODES.p3 + CODES.p4;
+    const fb = document.getElementById('final-feedback');
+    if(!solved.p1 || !solved.p2 || !solved.p3 || !solved.p4){
+      fb.textContent = "Clear Roles, Question, Source, and Search first to collect all four codes.";
+      fb.className = "feedback bad";
+      return;
+    }
+    if(entered === answer){
+      document.getElementById('escapedScreen').style.display = 'block';
+      fb.textContent = "";
+      document.querySelector('.final-lock').style.display = 'none';
+    } else {
+      fb.textContent = "Incorrect code — double-check the order (Roles, then Question, then Source, then Search).";
+      fb.className = "feedback bad";
+    }
+  });
+</script>
+
+</body>
+</html>

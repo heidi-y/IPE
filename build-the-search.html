@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build the Search</title>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{ --green:#154734; --green-dark:#0D3025; --gold:#FFB81C; --cream:#F7F4EC; --card:#FFFFFF; --ink:#211F1B; --ink-soft:#4A483F; --rule:#DAD5C6; --bad:#A3382A; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; padding:32px 16px 60px; line-height:1.55; }
+  .wrap{ max-width:720px; margin:0 auto; }
+  .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--green); font-weight:700; margin:0 0 8px; }
+  h1{ font-family:'Fraunces',serif; font-weight:600; font-size:26px; color:var(--green-dark); margin:0 0 8px; }
+  .deck{ color:var(--ink-soft); font-size:14.5px; max-width:62ch; margin:0 0 24px; }
+
+  .round{ background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:18px 20px; margin-bottom:16px; }
+  .round .n{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold); background:var(--green-dark); padding:2px 8px; border-radius:6px; display:inline-block; margin-bottom:8px; }
+  .round h2{ font-family:'Fraunces',serif; font-size:16.5px; color:var(--green-dark); margin:0 0 6px; }
+  .round .scenario{ font-size:14px; color:var(--ink-soft); margin:0 0 14px; }
+  .builder{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:var(--cream); border:1px solid var(--rule); border-radius:8px; padding:12px 14px; font-family:'JetBrains Mono',monospace; font-size:13.5px; margin-bottom:10px; }
+  .builder select{ font-family:'JetBrains Mono',monospace; font-size:13.5px; padding:5px 7px; border-radius:5px; border:1px solid var(--rule); }
+  .round-actions{ display:flex; align-items:center; gap:12px; }
+  .btn{ font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:12px; letter-spacing:.03em; background:var(--green-dark); color:#fff; border:none; border-radius:7px; padding:9px 16px; cursor:pointer; }
+  .btn:hover{ background:#1c4632; }
+  .btn:disabled{ background:#B7BEB6; cursor:not-allowed; }
+  .feedback{ font-family:'JetBrains Mono',monospace; font-size:12.5px; min-height:18px; }
+  .feedback.good{ color:var(--green); }
+  .feedback.bad{ color:var(--bad); }
+
+  .score{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); margin-top:8px; }
+  .score strong{ color:var(--green-dark); }
+  footer{ margin-top:20px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#8a9186; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Interprofessional Education &middot; Quick Activity</p>
+  <h1>Build the Search</h1>
+  <p class="deck">Same three concepts, three different jobs for AND, OR, and NOT to do. Pick the operators that actually match what each scenario needs — not just the ones that worked last time.</p>
+
+  <div class="round" data-answer="AND,AND" id="round1">
+    <span class="n">Round 1</span>
+    <h2>Narrow it down</h2>
+    <p class="scenario">You're researching fall prevention for elderly patients — you need every result to touch all three ideas at once.</p>
+    <div class="builder">
+      <span>"elderly"</span>
+      <select class="op1"><option value="">--</option><option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option></select>
+      <span>"fall prevention"</span>
+      <select class="op2"><option value="">--</option><option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option></select>
+      <span>"physical therapy"</span>
+    </div>
+    <div class="round-actions"><button class="btn check-btn" type="button">Check</button><span class="feedback"></span></div>
+  </div>
+
+  <div class="round" data-answer="OR,OR" id="round2">
+    <span class="n">Round 2</span>
+    <h2>Broaden with synonyms</h2>
+    <p class="scenario">Researchers describe this outcome differently depending on their field. You want any of these terms to count.</p>
+    <div class="builder">
+      <span>"quality of life"</span>
+      <select class="op1"><option value="">--</option><option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option></select>
+      <span>"wellbeing"</span>
+      <select class="op2"><option value="">--</option><option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option></select>
+      <span>"life satisfaction"</span>
+    </div>
+    <div class="round-actions"><button class="btn check-btn" type="button">Check</button><span class="feedback"></span></div>
+  </div>
+
+  <div class="round" data-answer="AND,NOT" id="round3">
+    <span class="n">Round 3</span>
+    <h2>Narrow, then exclude</h2>
+    <p class="scenario">You need diet studies in Type 2 diabetes specifically — gestational diabetes is a different population you want out of your results.</p>
+    <div class="builder">
+      <span>"type 2 diabetes"</span>
+      <select class="op1"><option value="">--</option><option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option></select>
+      <span>"diet"</span>
+      <select class="op2"><option value="">--</option><option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option></select>
+      <span>"gestational"</span>
+    </div>
+    <div class="round-actions"><button class="btn check-btn" type="button">Check</button><span class="feedback"></span></div>
+  </div>
+
+  <p class="score" id="scoreLine"></p>
+  <footer>INTERPROFESSIONAL EDUCATION &middot; BAYLOR UNIVERSITY LIBRARIES</footer>
+</div>
+
+<script>
+  const EXPLAIN = {
+    "AND,AND": "AND requires every concept to show up — right call when you genuinely need all three at once.",
+    "OR,OR": "OR widens the net — right call for synonyms, since you want any of these words to count, not all of them.",
+    "AND,NOT": "AND narrows to your real population, then NOT strips out the one you want excluded."
+  };
+
+  let solvedRounds = new Set();
+
+  document.querySelectorAll('.round').forEach(round => {
+    const answer = round.dataset.answer;
+    round.querySelector('.check-btn').addEventListener('click', () => {
+      const op1 = round.querySelector('.op1').value;
+      const op2 = round.querySelector('.op2').value;
+      const fb = round.querySelector('.feedback');
+      if(!op1 || !op2){
+        fb.textContent = "Choose both operators first.";
+        fb.className = "feedback bad";
+        return;
+      }
+      const chosen = op1 + "," + op2;
+      if(chosen === answer){
+        fb.textContent = "Correct — " + EXPLAIN[answer];
+        fb.className = "feedback good";
+        round.querySelector('.op1').disabled = true;
+        round.querySelector('.op2').disabled = true;
+        round.querySelector('.check-btn').disabled = true;
+        solvedRounds.add(round.id);
+        updateScore();
+      } else {
+        fb.textContent = "Not quite the right job for those operators here — try again.";
+        fb.className = "feedback bad";
+      }
+    });
+  });
+
+  function updateScore(){
+    document.getElementById('scoreLine').innerHTML =
+      'Rounds solved: <strong>' + solvedRounds.size + ' / 3</strong>';
+  }
+</script>
+</body>
+</html>

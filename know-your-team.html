@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Know Your Team</title>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{ --green:#154734; --green-dark:#0D3025; --gold:#FFB81C; --cream:#F7F4EC; --card:#FFFFFF; --ink:#211F1B; --ink-soft:#4A483F; --rule:#DAD5C6; --bad:#A3382A; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; padding:32px 16px 60px; line-height:1.55; }
+  .wrap{ max-width:720px; margin:0 auto; }
+  .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--green); font-weight:700; margin:0 0 8px; }
+  h1{ font-family:'Fraunces',serif; font-weight:600; font-size:26px; color:var(--green-dark); margin:0 0 8px; }
+  .deck{ color:var(--ink-soft); font-size:14.5px; max-width:60ch; margin:0 0 24px; }
+  .deck strong{ color:var(--ink); }
+
+  .roster-board{ background:var(--card); border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .item{ display:grid; grid-template-columns:1fr 220px; gap:16px; align-items:start; padding:18px 22px; border-top:1px solid var(--rule); }
+  .item:first-child{ border-top:none; }
+  .item p{ margin:0; font-size:14.5px; color:var(--ink); }
+  .item select{ font-family:'Inter',sans-serif; font-weight:600; font-size:13.5px; color:var(--green-dark); border:1.5px solid var(--rule); border-radius:8px; padding:8px 10px; background:#fff; width:100%; }
+  .item .why{ grid-column:1 / -1; font-size:13px; color:var(--ink-soft); background:var(--cream); border-radius:8px; padding:10px 14px; margin-top:8px; display:none; }
+  .item.correct select{ border-color:var(--green); background:#E6EAE3; }
+  .item.incorrect select{ border-color:var(--bad); background:#F8E9E6; }
+  .item.checked .why{ display:block; }
+
+  .actions{ display:flex; align-items:center; gap:14px; margin-top:20px; flex-wrap:wrap; }
+  .btn{ font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:12.5px; letter-spacing:.04em; background:var(--green-dark); color:#fff; border:none; border-radius:8px; padding:12px 22px; cursor:pointer; }
+  .btn:hover{ background:#1c4632; }
+  .score{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); }
+  .score strong{ color:var(--green-dark); }
+
+  footer{ margin-top:30px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#8a9186; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Interprofessional Education &middot; Quick Activity</p>
+  <h1>Know Your Team</h1>
+  <p class="deck">Six situations, one shared question each time: <strong>who on the care team should be looped in first?</strong> This isn't about who's "in charge" — it's the Roles &amp; Responsibilities competency: knowing your own scope of practice well enough to know whose scope a problem actually falls into.</p>
+
+  <div class="roster-board" id="board">
+
+    <div class="item" data-answer="slp">
+      <p><strong>1.</strong> A patient recovering from a stroke has started coughing every time she drinks water.</p>
+      <select><option value="">Loop in...</option><option value="pt">Physical Therapist</option><option value="slp">Speech-Language Pathologist</option><option value="rd">Registered Dietitian</option><option value="sw">Social Worker</option></select>
+      <div class="why"></div>
+    </div>
+
+    <div class="item" data-answer="ot">
+      <p><strong>2.</strong> A patient can now walk short distances but says buttoning a shirt and using a fork are still nearly impossible.</p>
+      <select><option value="">Loop in...</option><option value="pt">Physical Therapist</option><option value="ot">Occupational Therapist</option><option value="pa">Physician Assistant</option><option value="rd">Registered Dietitian</option></select>
+      <div class="why"></div>
+    </div>
+
+    <div class="item" data-answer="sw">
+      <p><strong>3.</strong> A patient is medically ready to go home but lives alone on the third floor of a walk-up apartment with no family nearby.</p>
+      <select><option value="">Loop in...</option><option value="sw">Social Worker</option><option value="pt">Physical Therapist</option><option value="ph">Public Health</option><option value="rn">Nurse</option></select>
+      <div class="why"></div>
+    </div>
+
+    <div class="item" data-answer="rd">
+      <p><strong>4.</strong> A patient with newly diagnosed Type 2 diabetes needs a meal plan that fits their culture, budget, and cooking situation at home.</p>
+      <select><option value="">Loop in...</option><option value="rd">Registered Dietitian</option><option value="slp">Speech-Language Pathologist</option><option value="pt">Physical Therapist</option><option value="sw">Social Worker</option></select>
+      <div class="why"></div>
+    </div>
+
+    <div class="item" data-answer="pt">
+      <p><strong>5.</strong> A patient's gait has become unsteady since the last visit, raising concern about a fall risk at home.</p>
+      <select><option value="">Loop in...</option><option value="ot">Occupational Therapist</option><option value="pt">Physical Therapist</option><option value="pa">Physician Assistant</option><option value="rd">Registered Dietitian</option></select>
+      <div class="why"></div>
+    </div>
+
+    <div class="item" data-answer="ph">
+      <p><strong>6.</strong> The team notices three patients from the same apartment complex admitted this month with similar respiratory symptoms.</p>
+      <select><option value="">Loop in...</option><option value="pa">Physician Assistant</option><option value="ph">Public Health</option><option value="ot">Occupational Therapist</option><option value="sw">Social Worker</option></select>
+      <div class="why"></div>
+    </div>
+
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="checkBtn" type="button">Check My Matches</button>
+    <span class="score" id="scoreLine"></span>
+  </div>
+
+  <footer>INTERPROFESSIONAL EDUCATION &middot; BAYLOR UNIVERSITY LIBRARIES</footer>
+</div>
+
+<script>
+  const EXPLAIN = {
+    slp: "Speech-language pathology screens swallowing (dysphagia) problems first — before nutrition changes the diet or anyone assumes it's just about food preference.",
+    ot: "Occupational therapy addresses activities of daily living — dressing, feeding oneself, fine motor tasks — which is a different scope than PT's mobility focus.",
+    sw: "Social work handles discharge planning around housing, safety, and support systems — the medical team can clear someone physically, but SW clears them logistically.",
+    rd: "Registered dietitians build medically and culturally appropriate nutrition plans — this goes beyond a general \"eat healthier\" conversation.",
+    pt: "Physical therapy owns gait, balance, and mobility — the core fall-risk assessment starts here.",
+    ph: "A pattern across multiple patients from the same location is a population-level signal, not just an individual case — that's public health's lane."
+  };
+
+  document.getElementById('checkBtn').addEventListener('click', () => {
+    let correctCount = 0;
+    const items = document.querySelectorAll('.item');
+    items.forEach(item => {
+      const answer = item.dataset.answer;
+      const select = item.querySelector('select');
+      const why = item.querySelector('.why');
+      const chosen = select.value;
+      item.classList.add('checked');
+      item.classList.remove('correct', 'incorrect');
+      if(!chosen){
+        why.textContent = "Pick an answer for this one first.";
+        return;
+      }
+      if(chosen === answer){
+        item.classList.add('correct');
+        correctCount++;
+      } else {
+        item.classList.add('incorrect');
+      }
+      why.textContent = EXPLAIN[answer];
+    });
+    document.getElementById('scoreLine').innerHTML = 'Score: <strong>' + correctCount + ' / ' + items.length + '</strong>';
+  });
+</script>
+</body>
+</html>

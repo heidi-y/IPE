@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source Triage</title>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{ --green:#154734; --green-dark:#0D3025; --gold:#FFB81C; --cream:#F7F4EC; --card:#FFFFFF; --ink:#211F1B; --ink-soft:#4A483F; --rule:#DAD5C6; --bad:#A3382A; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; padding:32px 16px 60px; line-height:1.55; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--green); font-weight:700; margin:0 0 8px; }
+  h1{ font-family:'Fraunces',serif; font-weight:600; font-size:26px; color:var(--green-dark); margin:0 0 8px; }
+  .deck{ color:var(--ink-soft); font-size:14.5px; max-width:62ch; margin:0 0 24px; }
+
+  .queue{ display:flex; flex-direction:column; gap:12px; margin-bottom:24px; }
+  .card{ background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:16px 18px; }
+  .card .excerpt{ font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--ink); margin:0 0 12px; line-height:1.5; }
+  .card .discipline{ font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--green-dark); background:#E6EAE3; border-radius:6px; padding:3px 8px; display:inline-block; margin-bottom:10px; }
+  .card .choices{ display:flex; gap:10px; }
+  .card button{ flex:1; font-family:'Inter',sans-serif; font-weight:700; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; padding:9px 12px; border-radius:8px; cursor:pointer; border:1.5px solid var(--rule); background:#fff; color:var(--ink); }
+  .card button:hover{ border-color:var(--green); }
+  .card button:disabled{ cursor:default; opacity:.55; }
+  .card .verdict{ margin-top:12px; padding:11px 14px; border-radius:8px; font-size:13px; display:none; }
+  .card.decided .choices{ display:none; }
+  .card.decided .verdict{ display:block; }
+  .card.decided.right{ border-color:var(--green); }
+  .card.decided.right .verdict{ background:#E6EAE3; color:var(--ink); }
+  .card.decided.wrong{ border-color:var(--bad); }
+  .card.decided.wrong .verdict{ background:#F8E9E6; color:var(--ink); }
+  .card .tag{ font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; margin-right:6px; }
+  .card.decided.right .tag{ color:var(--green); }
+  .card.decided.wrong .tag{ color:var(--bad); }
+
+  .score{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); }
+  .score strong{ color:var(--green-dark); }
+  footer{ margin-top:20px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#8a9186; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Interprofessional Education &middot; Quick Activity</p>
+  <h1>Source Triage</h1>
+  <p class="deck">Six excerpts, pulled from six different disciplines' research. For each one: <strong>Cite It</strong> if it's credible enough to build a care plan on, <strong>Skip It</strong> if it isn't. Decide, then see why.</p>
+
+  <div class="queue" id="queue">
+
+    <div class="card" data-cite="true">
+      <span class="discipline">Physical Therapy</span>
+      <p class="excerpt">"J. Ramirez, PT, DPT, Dept. of Physical Therapy, Baylor University. Randomized controlled trial, n=214. Methods, results, and 38 references included."</p>
+      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-cite="false">
+      <span class="discipline">Nutrition</span>
+      <p class="excerpt">"5 Superfoods That Will Change Your Life — glossy photos, no author byline, published on a wellness lifestyle site."</p>
+      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-cite="true">
+      <span class="discipline">Social Work</span>
+      <p class="excerpt">Practice guideline from a national social work association — named authors, documented methodology, peer-reviewed, published within the last 5 years.</p>
+      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-cite="false">
+      <span class="discipline">Occupational Therapy</span>
+      <p class="excerpt">Posted by @wellness_with_kate: "This one adaptive tool changed my patient's life!! link in bio 💛"</p>
+      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-cite="true">
+      <span class="discipline">Speech-Language Pathology</span>
+      <p class="excerpt">Systematic review in a peer-reviewed journal: search strategy, inclusion/exclusion criteria, and risk-of-bias assessment all reported.</p>
+      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-cite="false">
+      <span class="discipline">Public Health</span>
+      <p class="excerpt">Sponsored article on a supplement retailer's site: "Doctors don't want you to know this one trick" — no citations, no author credentials listed.</p>
+      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <div class="verdict"></div>
+    </div>
+
+  </div>
+
+  <p class="score" id="scoreLine"></p>
+  <footer>INTERPROFESSIONAL EDUCATION &middot; BAYLOR UNIVERSITY LIBRARIES</footer>
+</div>
+
+<script>
+  const cards = document.querySelectorAll('.card');
+  let decided = 0, correct = 0;
+
+  cards.forEach(card => {
+    const shouldCite = card.dataset.cite === "true";
+    card.querySelectorAll('.choices button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chose = btn.dataset.choice === "true";
+        const isRight = chose === shouldCite;
+        card.classList.add('decided', isRight ? 'right' : 'wrong');
+        const verdict = card.querySelector('.verdict');
+        const tag = isRight ? 'Correct' : 'Not quite';
+        const explain = shouldCite
+          ? "This one's citable: named author or authoring body, documented methods, and a real review process."
+          : "Skip this one: no credentialed author, no methods, no way to verify the claims.";
+        verdict.innerHTML = '<span class="tag">' + tag + '</span>' + explain;
+        decided++;
+        if(isRight) correct++;
+        updateScore();
+      });
+    });
+  });
+
+  function updateScore(){
+    document.getElementById('scoreLine').innerHTML =
+      decided === cards.length
+        ? 'Final score: <strong>' + correct + ' / ' + cards.length + '</strong>'
+        : 'Progress: <strong>' + decided + ' / ' + cards.length + '</strong> sorted';
+  }
+</script>
+</body>
+</html>
