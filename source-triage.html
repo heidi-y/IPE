@@ -10,17 +10,30 @@
   :root{ --green:#154734; --green-dark:#0D3025; --gold:#FFB81C; --cream:#F7F4EC; --card:#FFFFFF; --ink:#211F1B; --ink-soft:#4A483F; --rule:#DAD5C6; --bad:#A3382A; }
   *{ box-sizing:border-box; }
   body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; padding:32px 16px 60px; line-height:1.55; }
-  .wrap{ max-width:760px; margin:0 auto; }
+  .wrap{ max-width:780px; margin:0 auto; }
   .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--green); font-weight:700; margin:0 0 8px; }
   h1{ font-family:'Fraunces',serif; font-weight:600; font-size:26px; color:var(--green-dark); margin:0 0 8px; }
-  .deck{ color:var(--ink-soft); font-size:14.5px; max-width:62ch; margin:0 0 24px; }
+  .deck{ color:var(--ink-soft); font-size:14.5px; max-width:64ch; margin:0 0 18px; }
+  .deck strong{ color:var(--ink); }
+
+  .frame-tag{ font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--green-dark); background:#E6EAE3; border-radius:6px; padding:3px 9px; display:inline-block; margin-bottom:18px; }
+
+  .legend{ background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:14px 18px; margin-bottom:26px; display:grid; grid-template-columns:1fr; gap:10px; }
+  @media (min-width:560px){ .legend{ grid-template-columns:1fr 1fr; } }
+  .legend .row{ display:flex; gap:10px; align-items:flex-start; }
+  .legend .chip{ flex:none; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; border-radius:6px; padding:3px 7px; margin-top:1px; }
+  .legend .chip.intra{ background:#E6EAE3; color:var(--green-dark); }
+  .legend .chip.inter{ background:var(--gold); color:var(--green-dark); }
+  .legend .chip.public{ background:#DCE7F0; color:#1E4A63; }
+  .legend .chip.bad{ background:#F8E9E6; color:var(--bad); }
+  .legend p{ margin:0; font-size:12.5px; color:var(--ink-soft); }
 
   .queue{ display:flex; flex-direction:column; gap:12px; margin-bottom:24px; }
   .card{ background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:16px 18px; }
   .card .excerpt{ font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--ink); margin:0 0 12px; line-height:1.5; }
   .card .discipline{ font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--green-dark); background:#E6EAE3; border-radius:6px; padding:3px 8px; display:inline-block; margin-bottom:10px; }
-  .card .choices{ display:flex; gap:10px; }
-  .card button{ flex:1; font-family:'Inter',sans-serif; font-weight:700; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; padding:9px 12px; border-radius:8px; cursor:pointer; border:1.5px solid var(--rule); background:#fff; color:var(--ink); }
+  .card .choices{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .card button{ font-family:'Inter',sans-serif; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.02em; padding:9px 10px; border-radius:8px; cursor:pointer; border:1.5px solid var(--rule); background:#fff; color:var(--ink); }
   .card button:hover{ border-color:var(--green); }
   .card button:disabled{ cursor:default; opacity:.55; }
   .card .verdict{ margin-top:12px; padding:11px 14px; border-radius:8px; font-size:13px; display:none; }
@@ -43,49 +56,111 @@
 <div class="wrap">
   <p class="eyebrow">Interprofessional Education &middot; Quick Activity</p>
   <h1>Source Triage</h1>
-  <p class="deck">Six excerpts, pulled from six different disciplines' research. For each one: <strong>Cite It</strong> if it's credible enough to build a care plan on, <strong>Skip It</strong> if it isn't. Decide, then see why.</p>
+  <p class="deck">Eight sources from six disciplines. This time, credibility isn't the only question — <strong>who is this source actually for?</strong> A systematic review, a shift-handoff note, and a patient handout can all be well-made and still be the wrong fit if they land in front of the wrong audience. Sort each one into where it actually belongs.</p>
+  <span class="frame-tag">ACRL Framework: Authority Is Constructed and Contextual</span>
+
+  <div class="legend">
+    <div class="row"><span class="chip intra">Intra</span><p><strong>Intraprofessional</strong> — for colleagues in your own discipline (e.g. PT to PT).</p></div>
+    <div class="row"><span class="chip inter">Inter</span><p><strong>Interprofessional</strong> — for the whole care team, across disciplines.</p></div>
+    <div class="row"><span class="chip public">Public</span><p><strong>Public</strong> — for patients, families, or the community.</p></div>
+    <div class="row"><span class="chip bad">Not credible</span><p><strong>Not Credible</strong> — shouldn't inform a care plan for any audience.</p></div>
+  </div>
 
   <div class="queue" id="queue">
 
-    <div class="card" data-cite="true">
+    <div class="card" data-answer="intra">
       <span class="discipline">Physical Therapy</span>
-      <p class="excerpt">"J. Ramirez, PT, DPT, Dept. of Physical Therapy, Baylor University. Randomized controlled trial, n=214. Methods, results, and 38 references included."</p>
-      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <p class="excerpt">"Pt continues gait training, min A x1 for balance, tolerated 150ft w/ RW. Plan to progress distance next session. See flowsheet for vitals."</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
       <div class="verdict"></div>
     </div>
 
-    <div class="card" data-cite="false">
+    <div class="card" data-answer="inter">
       <span class="discipline">Nutrition</span>
-      <p class="excerpt">"5 Superfoods That Will Change Your Life — glossy photos, no author byline, published on a wellness lifestyle site."</p>
-      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <p class="excerpt">Systematic review (14 RCTs) in a peer-reviewed interdisciplinary journal: medical nutrition therapy lowers HbA1c in Type 2 diabetes by 0.5–2%. Search strategy, inclusion criteria, and risk-of-bias assessment all reported.</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
       <div class="verdict"></div>
     </div>
 
-    <div class="card" data-cite="true">
+    <div class="card" data-answer="public">
       <span class="discipline">Social Work</span>
-      <p class="excerpt">Practice guideline from a national social work association — named authors, documented methodology, peer-reviewed, published within the last 5 years.</p>
-      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <p class="excerpt">"Getting Ready to Go Home: What to Expect" — a one-page handout in plain language and large print, with icons, produced by the hospital's patient education team.</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
       <div class="verdict"></div>
     </div>
 
-    <div class="card" data-cite="false">
+    <div class="card" data-answer="bad">
+      <span class="discipline">Nutrition</span>
+      <p class="excerpt">"5 Superfoods That Cured My Patients' Diabetes" — glossy wellness blog, no author byline, no institutional affiliation, sponsored by a supplement brand.</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-answer="intra">
       <span class="discipline">Occupational Therapy</span>
-      <p class="excerpt">Posted by @wellness_with_kate: "This one adaptive tool changed my patient's life!! link in bio 💛"</p>
-      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <p class="excerpt">Shift-change documentation template: "Mod I w/ UE dressing, min A w/ LE. Pt fatigues after 2 tasks — see OT progress note for grading plan."</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
       <div class="verdict"></div>
     </div>
 
-    <div class="card" data-cite="true">
+    <div class="card" data-answer="inter">
       <span class="discipline">Speech-Language Pathology</span>
-      <p class="excerpt">Systematic review in a peer-reviewed journal: search strategy, inclusion/exclusion criteria, and risk-of-bias assessment all reported.</p>
-      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <p class="excerpt">Dysphagia management practice guideline from a national interdisciplinary rehabilitation association — named authors across SLP, nursing, and PT, documented methodology, written to guide shared team decisions.</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
       <div class="verdict"></div>
     </div>
 
-    <div class="card" data-cite="false">
+    <div class="card" data-answer="bad">
+      <span class="discipline">Physical Therapy</span>
+      <p class="excerpt">Anonymous forum post: "This one weird stretch fixed my patient's shoulder pain overnight!!" — no credentials, no verification, no follow-up.</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
+      <div class="verdict"></div>
+    </div>
+
+    <div class="card" data-answer="public">
       <span class="discipline">Public Health</span>
-      <p class="excerpt">Sponsored article on a supplement retailer's site: "Doctors don't want you to know this one trick" — no citations, no author credentials listed.</p>
-      <div class="choices"><button data-choice="true">Cite It</button><button data-choice="false">Skip It</button></div>
+      <p class="excerpt">A county health department social graphic: "3 Reasons to Get Your Flu Shot This Fall" — simple icons, plain language, designed to be shared widely.</p>
+      <div class="choices">
+        <button data-choice="intra">Intraprofessional</button>
+        <button data-choice="inter">Interprofessional</button>
+        <button data-choice="public">Public</button>
+        <button data-choice="bad">Not Credible</button>
+      </div>
       <div class="verdict"></div>
     </div>
 
@@ -96,22 +171,29 @@
 </div>
 
 <script>
+  const LABELS = { intra: "Intraprofessional", inter: "Interprofessional", public: "Public", bad: "Not Credible" };
+
+  const EXPLAIN = {
+    intra: "Written in shorthand that assumes shared discipline-specific training — the right register for a colleague continuing the same treatment, not for the whole team or a patient.",
+    inter: "Rigorous, methodologically documented, and written in language the whole care team can act on together — exactly what you'd bring to a huddle to justify a shared decision.",
+    public: "Written for patients or the community, not clinicians — plain language and no jargon isn't a weakness here, it's the job the source is doing.",
+    bad: "No named author, no institutional accountability, and no verifiable process behind the claims — that fails the credibility bar no matter who ends up reading it."
+  };
+
   const cards = document.querySelectorAll('.card');
   let decided = 0, correct = 0;
 
   cards.forEach(card => {
-    const shouldCite = card.dataset.cite === "true";
+    const answer = card.dataset.answer;
     card.querySelectorAll('.choices button').forEach(btn => {
       btn.addEventListener('click', () => {
-        const chose = btn.dataset.choice === "true";
-        const isRight = chose === shouldCite;
+        const chosen = btn.dataset.choice;
+        const isRight = chosen === answer;
         card.classList.add('decided', isRight ? 'right' : 'wrong');
         const verdict = card.querySelector('.verdict');
         const tag = isRight ? 'Correct' : 'Not quite';
-        const explain = shouldCite
-          ? "This one's citable: named author or authoring body, documented methods, and a real review process."
-          : "Skip this one: no credentialed author, no methods, no way to verify the claims.";
-        verdict.innerHTML = '<span class="tag">' + tag + '</span>' + explain;
+        const belongs = 'Best fit: <strong>' + LABELS[answer] + '</strong>. ';
+        verdict.innerHTML = '<span class="tag">' + tag + '</span>' + belongs + EXPLAIN[answer];
         decided++;
         if(isRight) correct++;
         updateScore();
