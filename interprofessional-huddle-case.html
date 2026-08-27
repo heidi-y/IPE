@@ -168,10 +168,10 @@
     <h2 class="puzzle-title">Hold 1 — Who Do We Call?</h2>
     <p class="puzzle-sub">Mrs. Alvarez has started coughing every time she drinks water, and she's been quietly avoiding solid food at meals. Who does the team need to loop in <em>first</em>?</p>
     <div class="options" id="p1-options">
-      <button class="option" data-correct="false">Physical Therapist — assess her walking before anything else</button>
+      <button class="option" data-correct="false" data-feedback="Gait matters for her discharge, but a new cough on thin liquids is a possible sign of aspiration. That gets screened before mobility work — wrong discipline for the first call. Try again.">Physical Therapist — assess her walking before anything else</button>
       <button class="option" data-correct="true">Speech-Language Pathologist — screen for a swallowing (dysphagia) problem</button>
-      <button class="option" data-correct="false">Registered Dietitian — switch her straight to a soft-food diet</button>
-      <button class="option" data-correct="false">Social Worker — start discharge paperwork now</button>
+      <button class="option" data-correct="false" data-feedback="Changing diet texture before anyone has screened the swallow can mask the problem or add aspiration risk. Nutrition steps in after the swallow is assessed, not before. Try again.">Registered Dietitian — switch her straight to a soft-food diet</button>
+      <button class="option" data-correct="false" data-feedback="Discharge planning is the social worker's role, but an unscreened swallowing problem is exactly the kind of unresolved issue you don't want to discharge around. Try again.">Social Worker — start discharge paperwork now</button>
     </div>
     <div class="feedback" id="p1-feedback"></div>
     <div id="p1-reveal"></div>
@@ -181,12 +181,15 @@
   <div class="panel" id="panel-p2">
     <span class="competency-tag">Physical Therapy &middot; Evidence-Based Practice</span>
     <h2 class="puzzle-title">Hold 2 — Ask It Right</h2>
-    <p class="puzzle-sub">The PT on the team wants to look into Mrs. Alvarez's gait training before writing her home exercise plan. Only one of these is a real <em>foreground</em> question — specific enough to actually search. Select it.</p>
+    <p class="puzzle-sub">
+      Mrs. Alvarez is 76 and recovering from an <em>ischemic</em> stroke. She walks short distances with a rolling walker and standby assistance, but the PT wants evidence on which gait-training approach will best move her toward walking independently at home. Before writing the home exercise plan, the PT drafts a foreground (PICO) question.<br><br>
+      All four drafts below are specific and searchable. Only one matches Mrs. Alvarez's <strong>population</strong>, the <strong>intervention</strong> the PT is actually weighing, and the <strong>outcome</strong> that matters for this discharge. Select it.
+    </p>
     <div class="options" id="p2-options">
-      <button class="option" data-correct="false">How does physical therapy help stroke patients?</button>
-      <button class="option" data-correct="false">What is gait training?</button>
-      <button class="option" data-correct="true">In adults over 70 recovering from stroke, does task-specific gait training improve independent ambulation more than traditional gait training?</button>
-      <button class="option" data-correct="false">Is walking good for older adults?</button>
+      <button class="option" data-correct="true">In older adults recovering from ischemic stroke, does task-specific gait training, compared with conventional gait training, improve independent ambulation?</button>
+      <button class="option" data-correct="false" data-feedback="Clean PICO structure — but the population is wrong. Mrs. Alvarez is 76 with an ischemic stroke, not a young adult with a spinal cord injury. Evidence from that group may not transfer to hers. Try again.">In adults under 40 recovering from spinal cord injury, does task-specific gait training, compared with conventional gait training, improve independent ambulation?</button>
+      <button class="option" data-correct="false" data-feedback="The structure is fine, but the intervention doesn't match the decision in front of the PT. The PT is comparing two gait-training approaches; this question studies lower-limb strength training instead. Try again.">In older adults recovering from ischemic stroke, does lower-extremity strength training, compared with conventional gait training, improve independent ambulation?</button>
+      <button class="option" data-correct="false" data-feedback="Population and intervention fit, but the outcome is off. Secondary stroke prevention isn't what a home exercise plan targets — the PT needs an outcome about walking independence. Try again.">In older adults recovering from ischemic stroke, does task-specific gait training, compared with conventional gait training, reduce the risk of a second stroke?</button>
     </div>
     <div class="feedback" id="p2-feedback"></div>
     <div id="p2-reveal"></div>
@@ -198,10 +201,10 @@
     <h2 class="puzzle-title">Hold 3 — Trust the Source</h2>
     <p class="puzzle-sub">The social worker is researching discharge-planning best practices for stroke patients who'll be living alone. Only one of these is something the team should actually cite. Select it.</p>
     <div class="options" id="p3-options">
-      <button class="option" data-correct="false">"5 Tips for Caregivers" — blog post, no author byline, no date</button>
+      <button class="option" data-correct="false" data-feedback="No author, no date, no cited evidence — there's no way to judge who wrote this or whether it's current. Not something to build a discharge plan on. Try again.">"5 Tips for Caregivers" — blog post, no author byline, no date</button>
       <button class="option" data-correct="true">Practice guideline from a national social work / rehabilitation association, named authors, cited methods, peer-reviewed</button>
-      <button class="option" data-correct="false">Anonymous forum thread: "what worked for my grandma"</button>
-      <button class="option" data-correct="false">Sponsored article on a home-safety-products retailer's site</button>
+      <button class="option" data-correct="false" data-feedback="One person's experience with one relative isn't evidence the team can generalize from, and no one is accountable for its accuracy. Useful for empathy, not for practice decisions. Try again.">Anonymous forum thread: "what worked for my grandma"</button>
+      <button class="option" data-correct="false" data-feedback="A page built to sell home-safety products has a financial stake in what it recommends. That commercial bias makes it a poor source for objective best practice. Try again.">Sponsored article on a home-safety-products retailer's site</button>
     </div>
     <div class="feedback" id="p3-feedback"></div>
     <div id="p3-reveal"></div>
@@ -211,23 +214,32 @@
   <div class="panel" id="panel-p4">
     <span class="competency-tag">Whole Team &middot; Shared Search Strategy</span>
     <h2 class="puzzle-title">Hold 4 — Build the Search</h2>
-    <p class="puzzle-sub">Before the huddle, the team wants one shared search on fall prevention after stroke, so everyone can pull an article relevant to their own piece of the plan. Build the strongest search string.</p>
+    <p class="puzzle-sub">
+      Before the huddle, the team wants one shared search that pulls the literature on <em>falls after stroke</em>, so each discipline can pick out what's relevant to its piece of the plan. There are two concepts here — the condition and the safety outcome — and each has a synonym worth including. Choose the operator for each blank.
+    </p>
     <div class="search-builder">
-      <span>"stroke"</span>
+      <span>( "stroke"</span>
       <select id="op1">
         <option value="">-- choose --</option>
         <option value="AND">AND</option>
         <option value="OR">OR</option>
         <option value="NOT">NOT</option>
       </select>
-      <span>"falls"</span>
+      <span>"cerebrovascular accident" )</span>
       <select id="op2">
         <option value="">-- choose --</option>
         <option value="AND">AND</option>
         <option value="OR">OR</option>
         <option value="NOT">NOT</option>
       </select>
-      <span>"home safety"</span>
+      <span>( "falls"</span>
+      <select id="op3">
+        <option value="">-- choose --</option>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="NOT">NOT</option>
+      </select>
+      <span>"fall prevention" )</span>
     </div>
     <button class="btn" id="checkSearch">Run Search</button>
     <div class="feedback" id="p4-feedback"></div>
@@ -300,7 +312,7 @@
           document.querySelectorAll('#' + panelId + '-options .option').forEach(b => b.disabled = true);
         } else {
           btn.classList.add('incorrect');
-          fb.textContent = "Not quite — think about scope of practice here. Try again.";
+          fb.textContent = btn.dataset.feedback || "Not quite — weigh this option against the case again. Try again.";
           fb.className = "feedback bad";
         }
       });
@@ -314,8 +326,19 @@
     solved.p1 = true; markSolvedTab('p1');
   });
 
+  // randomize the order of the PICO drafts so position isn't a tell
+  (function shuffleP2(){
+    const box = document.getElementById('p2-options');
+    const opts = Array.from(box.children);
+    for(let i = opts.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    opts.forEach(o => box.appendChild(o));
+  })();
+
   wireOptions('p2', (fb) => {
-    fb.textContent = "Correct — focused, measurable, and searchable. That's a foreground question the databases can actually answer.";
+    fb.textContent = "Correct — the population (older adults, ischemic stroke), the intervention and comparison (task-specific vs. conventional gait training), and the outcome (independent ambulation) all match Mrs. Alvarez and the choice the PT is making. Every PICO element has to earn its place.";
     fb.className = "feedback good";
     document.getElementById('p2-reveal').innerHTML = '<div class="code-reveal">Code fragment 2: ' + CODES.p2 + '</div>';
     solved.p2 = true; markSolvedTab('p2');
@@ -331,20 +354,25 @@
   document.getElementById('checkSearch').addEventListener('click', () => {
     const op1 = document.getElementById('op1').value;
     const op2 = document.getElementById('op2').value;
+    const op3 = document.getElementById('op3').value;
     const fb = document.getElementById('p4-feedback');
-    if(op1 === "AND" && op2 === "AND"){
-      fb.textContent = "Correct — AND narrows results to sources covering all three concepts together, which is exactly what a shared team search needs.";
+    if(!op1 || !op2 || !op3){
+      fb.textContent = "Choose an operator for all three blanks first.";
+      fb.className = "feedback bad";
+      return;
+    }
+    if(op1 === "OR" && op2 === "AND" && op3 === "OR"){
+      fb.textContent = "Correct — OR widens each concept to catch synonyms (a study might say \"cerebrovascular accident,\" not \"stroke\"), and AND joins the two concepts so every result is about falls and stroke together. OR within a concept, AND between concepts.";
       fb.className = "feedback good";
       document.getElementById('p4-reveal').innerHTML = '<div class="code-reveal">Code fragment 4: ' + CODES.p4 + '</div>';
       solved.p4 = true; markSolvedTab('p4');
       document.getElementById('checkSearch').disabled = true;
-      document.getElementById('op1').disabled = true;
-      document.getElementById('op2').disabled = true;
-    } else if(!op1 || !op2){
-      fb.textContent = "Choose an operator for both blanks first.";
+      ['op1','op2','op3'].forEach(id => document.getElementById(id).disabled = true);
+    } else if(op2 !== "AND"){
+      fb.textContent = "The two concepts need AND between them. OR there floods the results with anything about falls in any population; NOT drops a whole concept. Try again.";
       fb.className = "feedback bad";
     } else {
-      fb.textContent = "That combination pulls in too many unrelated results, or too few — try again.";
+      fb.textContent = "Check the operators inside each concept. Synonyms for one idea take OR — \"stroke\" OR \"cerebrovascular accident\" — so a record using either term is caught. AND between synonyms wrongly demands both phrases. Try again.";
       fb.className = "feedback bad";
     }
   });
